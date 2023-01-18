@@ -1,0 +1,20 @@
+body {
+    background-color: rgb(211, 189, 228);
+}
+
+h1 {
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.grid-container {
+    display:grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto auto;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 5%;
+    margin-bottom: 10%;
+
+  }
+

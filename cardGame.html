@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="cardGame.css">
+        <title>
+            Friends Flash Cards
+        </title>
+
+    </head>
+    <body onload="startGame()">
+        <h1>
+            Friends Flash Cards
+        </h1>
+        <div class="grid-container">
+            <div class="grid-item off" id="1" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="2" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="3" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="4" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="5" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="6" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="7" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="8" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="9" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="10" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="11" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+            <div class="grid-item off" id="12" onclick="clickedItem(this.id)"><img src="friends.jpeg" width="200em" height="200em"></div>
+          </div>
+
+        <script>
+            var friends = [
+                "chandler.jpeg", 
+                "joey.jpeg",
+                "monica.jpeg",
+                "pheobe.jpeg",
+                "rachel.jpeg",
+                "ross.jpeg",
+                "chandler.jpeg", 
+                "joey.jpeg",
+                "monica.jpeg",
+                "pheobe.jpeg",
+                "rachel.jpeg",
+                "ross.jpeg"
+            ];
+
+            function shuffle(array) {
+                let currentIndex = array.length,  randomIndex;
+
+                // While there remain elements to shuffle.
+                while (currentIndex != 0) {
+
+                    // Pick a remaining element.
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+
+                    // And swap it with the current element.
+                    [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]];
+                }
+
+                return array;
+            }                
+            
+            function startGame () {
+                shuffle(friends);
+            }
+            
+            function clickedItem(id) {
+                var selectedDiv =  document.getElementById(id);
+
+                if (selectedDiv.classList.contains('off')) {
+                    selectedDiv.classList.add('on');
+                    selectedDiv.classList.remove('off');
+                    changePhoto(selectedDiv, id);
+                    
+                    
+                }
+                else if (selectedDiv.classList.contains('on')) {
+                    selectedDiv.classList.add('off');
+                    selectedDiv.classList.remove('on');
+                    flipBack(selectedDiv); 
+                }
+                console.log(document.getElementsByClassName('gone').length);
+                if (document.getElementsByClassName('on').length == 2) {
+                    setTimeout(function() { matchCards(); }, 1000);
+                } 
+                
+ 
+            }
+
+            function changePhoto(selectedDiv, id) {
+                var selectedImg = selectedDiv.firstChild;
+                selectedImg.src = friends[id-1];
+            }
+            function flipBack(selectedDiv) {
+                var selectedImg = selectedDiv.firstChild;
+                selectedImg.src = "friends.jpeg";
+            }
+            
+            function matchCards() {
+                let cardOn = document.getElementsByClassName('on');
+                if (cardOn[0].firstChild.src == cardOn[1].firstChild.src) {
+                    console.log("SAME CARDS");
+                    cardOn[1].firstChild.src = "black.jpeg";
+                    cardOn[1].classList.add('gone');
+                    cardOn[1].classList.remove('on');
+                    cardOn[0].firstChild.src = "black.jpeg";
+                    cardOn[0].classList.add('gone');
+                    cardOn[0].classList.remove('on');
+                }
+                else {
+                    console.log("DIFFERENT CARDS");
+                    cardOn[1].firstChild.src = "friends.jpeg";
+                    cardOn[1].classList.add('off');
+                    cardOn[1].classList.remove('on');
+                    cardOn[0].firstChild.src = "friends.jpeg";
+                    cardOn[0].classList.add('off');
+                    cardOn[0].classList.remove('on');  
+                }
+                
+                setTimeout(function() { endGame(); }, 500);
+
+            }
+
+            function endGame() {
+                if (document.getElementsByClassName('gone').length == 12) {
+                    let text = "You won!\nWanna try again?";
+                    if (confirm(text) == true) {
+                        document.location.reload();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            
+        </script>
+    </body>
+</html>
